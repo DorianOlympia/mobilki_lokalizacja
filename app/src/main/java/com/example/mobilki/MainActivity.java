@@ -1,38 +1,34 @@
 package com.example.mobilki;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-import com.lemmingapex.trilateration.NonLinearLeastSquaresSolver;
-import com.lemmingapex.trilateration.TrilaterationFunction;
-
-import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer;
-import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.RealVector;
+import com.example.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
+
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        RunTri();
-
+        navigationView = findViewById(R.id.navigation_view);
+        navigationView.updatePosition();
     }
 
-    private void RunTri() {
-        double[][] positions = new double[][]{{5.0, -6.0}, {13.0, -15.0}, {21.0, -3.0}, {12.4, -21.2}};
-        double[] distances = new double[]{8.06, 13.97, 23.32, 15.31};
-
-        NonLinearLeastSquaresSolver solver = new NonLinearLeastSquaresSolver(new TrilaterationFunction(positions, distances), new LevenbergMarquardtOptimizer());
-        LeastSquaresOptimizer.Optimum optimum = solver.solve();
-
-// the answer
-        double[] centroid = optimum.getPoint().toArray();
-
-// error and geometry information; may throw SingularMatrixException depending the threshold argument provided
-        RealVector standardDeviation = optimum.getSigma(0);
-        RealMatrix covarianceMatrix = optimum.getCovariances(0);
-    }
+//    private void RunTri() {
+//        double[][] positions = new double[][]{{0,0}, {4, 4}, {4, 0}};
+//        double[] distances = new double[]{2.8, 2.8, 2.8};
+//
+//        NonLinearLeastSquaresSolver solver = new NonLinearLeastSquaresSolver(new TrilaterationFunction(positions, distances), new LevenbergMarquardtOptimizer());
+//        LeastSquaresOptimizer.Optimum optimum = solver.solve();
+//
+//// the answer
+//        double[] centroid = optimum.getPoint().toArray();
+//
+//// error and geometry information; may throw SingularMatrixException depending the threshold argument provided
+//        RealVector standardDeviation = optimum.getSigma(0);
+//        RealMatrix covarianceMatrix = optimum.getCovariances(0);
+//    }
 }
