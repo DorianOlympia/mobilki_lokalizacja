@@ -16,14 +16,9 @@ import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer;
 import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
 
 public class NavigationView extends View {
-    private Room room;
-    private Paint wallPaint;
-    private Paint routerPaint;
-    private Paint phonePaint;
-
     public NavigationView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        room = new Room(10, 10);
+
 
         wallPaint = new Paint();
         wallPaint.setColor(Color.BLUE);
@@ -37,6 +32,15 @@ public class NavigationView extends View {
         phonePaint = new Paint();
         phonePaint.setStrokeWidth(0.5f);
         phonePaint.setColor(Color.CYAN);
+    }
+
+    private Room room;
+    private Paint wallPaint;
+    private Paint routerPaint;
+    private Paint phonePaint;
+
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     @Override
@@ -54,7 +58,7 @@ public class NavigationView extends View {
     }
 
     public void updatePosition(){
-        invalidate();
+        postInvalidate();
     }
 
 
@@ -72,7 +76,7 @@ public class NavigationView extends View {
         double[] routerDistances = new double[room.getRouterList().size()];
         double[][] routerPositions = new double[room.getRouterList().size()][2];
         for(int i = 0;i<room.getRouterList().size();i++){
-            routerDistances[i]= (double) room.getRouterList().get(i).getMockedDistance();
+            routerDistances[i]= (double) room.getRouterList().get(i).getDistance();
             routerPositions[i][0]= (double) room.getRouterList().get(i).getxPosMeters();
             routerPositions[i][1]= (double) room.getRouterList().get(i).getyPosMeters();
 

@@ -1,20 +1,27 @@
 package com.example.model;
 
-public class Router {
+import java.io.Serializable;
+
+public class Router implements Serializable {
     private String id;
     private float xPosMeters;
     private float yPosMeters;
-    private float mockedDistance;
 
-    public Router(String id, float xPosMeters, float yPosMeters, float mockedDistance) {
+    private float distance;
+
+    public Router(String id, float xPosMeters, float yPosMeters, float distance) {
         this.id = id;
         this.xPosMeters = xPosMeters;
         this.yPosMeters = yPosMeters;
-        this.mockedDistance = mockedDistance;
+        this.distance = distance;
     }
 
-    public float getMockedDistance() {
-        return mockedDistance;
+    public float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(float distance) {
+        this.distance = distance;
     }
 
     public float getxPosMeters() {
