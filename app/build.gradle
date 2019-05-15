@@ -26,4 +26,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.lemmingapex.trilateration:trilateration:1.0.2'
+    compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.3'
 }

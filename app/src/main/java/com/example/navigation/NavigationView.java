@@ -16,6 +16,12 @@ import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer;
 import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
 
 public class NavigationView extends View {
+    private Paint rssiPaint;
+
+    private Room room;
+    private Paint wallPaint;
+    private Paint routerPaint;
+    private Paint phonePaint;
     public NavigationView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -32,12 +38,11 @@ public class NavigationView extends View {
         phonePaint = new Paint();
         phonePaint.setStrokeWidth(0.5f);
         phonePaint.setColor(Color.CYAN);
-    }
 
-    private Room room;
-    private Paint wallPaint;
-    private Paint routerPaint;
-    private Paint phonePaint;
+        rssiPaint = new Paint();
+        rssiPaint.setStrokeWidth(0.5f);
+        rssiPaint.setColor(Color.RED);
+    }
 
     public void setRoom(Room room) {
         this.room = room;
@@ -48,12 +53,12 @@ public class NavigationView extends View {
         super.onDraw(canvas);
 
         canvas.save();
-        canvas.scale(90, 90);
+        canvas.scale(120, 120);
 //        canvas.translate(mPosX, mPosY);
-        drawWalls(canvas);
+//        drawWalls(canvas);
         drawRouters(canvas);
         drawPosition(canvas);
-
+        drawPositionRSSI(canvas);
         canvas.restore();
     }
 
@@ -86,5 +91,21 @@ public class NavigationView extends View {
         LeastSquaresOptimizer.Optimum optimum = solver.solve();
         double[] centroid = optimum.getPoint().toArray();
         canvas.drawPoint((float)centroid[0], (float)centroid[1], phonePaint);
+    }
+
+    public void drawPositionRSSI(Canvas canvas){
+        double[] routerDistances = new double[room.getRouterList().size()];
+        double[][] routerPositions = new double[room.getRouterList().size()][2];
+        for(int i = 0;i<room.getRouterList().size();i++){
+            routerDistances[i]= (double) room.getRouterList().get(i).getRssiDistance();
+            routerPositions[i][0]= (double) room.getRouterList().get(i).getxPosMeters();
+            routerPositions[i][1]= (double) room.getRouterList().get(i).getyPosMeters();
+
+        }
+
+        NonLinearLeastSquaresSolver solver = new NonLinearLeastSquaresSolver(new TrilaterationFunction(routerPositions,routerDistances), new LevenbergMarquardtOptimizer());
+        LeastSquaresOptimizer.Optimum optimum = solver.solve();
+        double[] centroid = optimum.getPoint().toArray();
+        canvas.drawPoint((float)centroid[0], (float)centroid[1], rssiPaint);
     }
 }

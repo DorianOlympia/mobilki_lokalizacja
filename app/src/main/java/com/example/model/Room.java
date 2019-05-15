@@ -14,9 +14,10 @@ public class Room implements Serializable {
         this.yLengthMeters = yLengthMeters;
 
         routerList = Arrays.asList(
-                new Router("Mobilne", 1, 1, 5.5f),
-                new Router("r2", 1, 9, 3),
-                new Router("r3", 9, 9, 3)
+                new Router("Mobilne1", 1, 1, 0),
+                new Router("Mobilne2", 1, 10.1f, 0),
+                new Router("Mobilne3", 6.3f, 3.5f, 0),
+                new Router("Mobilne4", 7, 7.8f, 0)
         );
     }
 
